@@ -113,3 +113,18 @@ def test_western_aspect_vocabulary_is_not_emitted():
     serialized = str(parashari_drishti_events(natal, [position("jupiter", 1)])).lower()
     for forbidden in ("square", "trine", "sextile", "opposition", "conjunction"):
         assert forbidden not in serialized
+
+
+def test_sade_sati_three_sign_window():
+    natal = [position("moon", 5)]
+    assert sade_sati(natal, [position("saturn", 4)])["phase"] == "rising"
+    assert sade_sati(natal, [position("saturn", 5)])["phase"] == "peak"
+    assert sade_sati(natal, [position("saturn", 6)])["phase"] == "setting"
+    assert sade_sati(natal, [position("saturn", 7)])["active"] is False
+
+
+def test_manglik_baseline_is_explicit_and_lagna_based():
+    result = manglik(1, [position("mars", 8)])
+    assert result["active"] is True
+    assert result["mars_house"] == 8
+    assert result["rule_id"] == "JEEVAN_MANGLIK_BASELINE_ASC_1_2_4_7_8_12"
