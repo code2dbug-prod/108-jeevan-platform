@@ -13,14 +13,8 @@ export async function POST(request:Request){
       draws:spread.positions.map((position,index)=>{
         const cardId=ids[index];
         const structure=structureForCard(cardId);
-        return {
-          position,
-          index:index+1,
-          cardId,
-          structure,
-          memoryHook:JEEVAN_NUMBER_HOOKS[structure.jeevanNumber],
-          card:cardById(cardId),
-        };
+        const memoryHook=JEEVAN_NUMBER_HOOKS[structure.jeevanNumber as keyof typeof JEEVAN_NUMBER_HOOKS];
+        return {position,index:index+1,cardId,structure,memoryHook,card:cardById(cardId)};
       })
     });
   }catch(error){
