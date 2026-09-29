@@ -5,3 +5,4 @@ export function navakaPosition(cardId:number):number{return jeevanNumber(cardId)
 export * from "./types";
 export * from "./structure";
 export * from "./spreads";
+export * from "./catalog";
