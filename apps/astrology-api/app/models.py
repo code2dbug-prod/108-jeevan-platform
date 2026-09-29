@@ -1,8 +1,10 @@
 from datetime import date, datetime, time
 from typing import Literal
+
 from pydantic import BaseModel, Field, model_validator
 
 BirthPrecision = Literal["exact", "approximate", "unknown"]
+
 
 class BirthData(BaseModel):
     full_name: str = Field(min_length=1)
@@ -22,6 +24,7 @@ class BirthData(BaseModel):
             raise ValueError("unknown birth time must not provide birth_time")
         return self
 
+
 class GrahaPosition(BaseModel):
     key: str
     longitude: float
@@ -31,9 +34,11 @@ class GrahaPosition(BaseModel):
     pada: int
     retrograde: bool
 
+
 class Ascendant(BaseModel):
     longitude: float
     rashi: int
+
 
 class ChartResponse(BaseModel):
     calculation_version: str
@@ -44,10 +49,12 @@ class ChartResponse(BaseModel):
     grahas: list[GrahaPosition]
     warnings: list[str] = []
 
+
 class UncertaintyField(BaseModel):
     field: str
     stable: bool
     values: list[str]
+
 
 class UnknownTimeResponse(BaseModel):
     calculation_version: str
@@ -57,10 +64,12 @@ class UnknownTimeResponse(BaseModel):
     unstable: list[UncertaintyField]
     warnings: list[str]
 
+
 class DashaPeriodModel(BaseModel):
     lord: str
     start: datetime
     end: datetime
+
 
 class DashaResponse(BaseModel):
     mahadasha: DashaPeriodModel
@@ -68,12 +77,13 @@ class DashaResponse(BaseModel):
     moon_longitude: float
     as_of: datetime
 
+
 class TransitRequest(BaseModel):
     natal: ChartResponse
     at: datetime
     latitude: float = Field(ge=-90, le=90)
     longitude: float = Field(ge=-180, le=180)
-    orb: float = Field(default=3.0, ge=0.1, le=10.0)
+
 
 class TransitResponse(BaseModel):
     at: datetime
