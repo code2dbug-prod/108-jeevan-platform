@@ -1,4 +1,4 @@
-from datetime import date, time
+from datetime import date, datetime, time
 from typing import Literal
 from pydantic import BaseModel, Field, model_validator
 
@@ -56,3 +56,26 @@ class UnknownTimeResponse(BaseModel):
     stable_grahas: list[GrahaPosition]
     unstable: list[UncertaintyField]
     warnings: list[str]
+
+class DashaPeriodModel(BaseModel):
+    lord: str
+    start: datetime
+    end: datetime
+
+class DashaResponse(BaseModel):
+    mahadasha: DashaPeriodModel
+    antardasha: DashaPeriodModel
+    moon_longitude: float
+    as_of: datetime
+
+class TransitRequest(BaseModel):
+    natal: ChartResponse
+    at: datetime
+    latitude: float = Field(ge=-90, le=90)
+    longitude: float = Field(ge=-180, le=180)
+    orb: float = Field(default=3.0, ge=0.1, le=10.0)
+
+class TransitResponse(BaseModel):
+    at: datetime
+    grahas: list[GrahaPosition]
+    events: list[dict]
