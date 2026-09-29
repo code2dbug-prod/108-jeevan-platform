@@ -1,4 +1,3 @@
-from datetime import date, time
 from fastapi.testclient import TestClient
 from app.main import app
 
