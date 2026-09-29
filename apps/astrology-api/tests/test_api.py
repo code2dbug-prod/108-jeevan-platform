@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 
+from app.conditions import manglik, sade_sati
 from app.derived import navamsa_rashi, whole_sign_house
 from app.main import app
 from app.models import GrahaPosition
