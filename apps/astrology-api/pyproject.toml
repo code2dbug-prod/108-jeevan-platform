@@ -1,6 +1,6 @@
 [project]
 name="jeevan-astrology-api"
-version="0.1.0"
+version="0.2.0"
 requires-python=">=3.12"
 dependencies=["fastapi==0.141.1","uvicorn[standard]>=0.35,<0.36","pydantic>=2.11,<3","pydantic-settings>=2.10,<3","pyswisseph>=2.10.3.2","python-dateutil>=2.9,<3","timezonefinder>=6.6,<7"]
 [project.optional-dependencies]

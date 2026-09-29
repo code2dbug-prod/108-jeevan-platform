@@ -1,5 +1,5 @@
 from datetime import date, datetime, time
-from typing import Literal
+from typing import Literal, Any
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -18,8 +18,8 @@ class BirthData(BaseModel):
 
     @model_validator(mode="after")
     def validate_time_precision(self):
-        if self.birth_time_precision == "exact" and self.birth_time is None:
-            raise ValueError("exact birth time requires birth_time")
+        if self.birth_time_precision in {"exact", "approximate"} and self.birth_time is None:
+            raise ValueError("known/approximate birth time requires birth_time")
         if self.birth_time_precision == "unknown" and self.birth_time is not None:
             raise ValueError("unknown birth time must not provide birth_time")
         return self
@@ -50,6 +50,13 @@ class ChartResponse(BaseModel):
     warnings: list[str] = []
 
 
+class FullChartResponse(ChartResponse):
+    houses: list[dict[str, Any]] = []
+    dignities: dict[str, str] = {}
+    navamsa: dict[str, Any] = {}
+    panchanga: dict[str, Any] = {}
+
+
 class UncertaintyField(BaseModel):
     field: str
     stable: bool
@@ -74,6 +81,7 @@ class DashaPeriodModel(BaseModel):
 class DashaResponse(BaseModel):
     mahadasha: DashaPeriodModel
     antardasha: DashaPeriodModel
+    pratyantardasha: DashaPeriodModel | None = None
     moon_longitude: float
     as_of: datetime
 
@@ -89,3 +97,12 @@ class TransitResponse(BaseModel):
     at: datetime
     grahas: list[GrahaPosition]
     events: list[dict]
+
+
+class TimezoneRequest(BaseModel):
+    latitude: float = Field(ge=-90, le=90)
+    longitude: float = Field(ge=-180, le=180)
+
+
+class TimezoneResponse(BaseModel):
+    timezone: str
