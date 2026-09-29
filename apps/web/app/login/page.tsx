@@ -1,0 +1,4 @@
+"use client";
+import { FormEvent, useState } from "react";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+export default function LoginPage(){const [message,setMessage]=useState("");async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();const f=new FormData(e.currentTarget);const email=String(f.get("email")||"");const supabase=createSupabaseBrowserClient();const {error}=await supabase.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin+"/reader"}});setMessage(error?error.message:"Check your email for the secure sign-in link.")}return <main className="shell"><p className="eyebrow">ACCOUNT ACCESS</p><h1>Sign in</h1><form className="panel form narrow" onSubmit={submit}><label>Email<input name="email" type="email" required/></label><button>Send magic link</button>{message&&<p>{message}</p>}</form></main>}

@@ -1,0 +1,17 @@
+node_modules/
+.pnpm-store/
+.next/
+dist/
+coverage/
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.env
+.env.local
+*.pyc
+.DS_Store
+.idea/
+.vscode/
+supabase/.branches/
+supabase/.temp/
