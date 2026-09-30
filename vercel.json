@@ -4,6 +4,8 @@
     "web": {
       "root": "apps/web/",
       "framework": "nextjs",
+      "installCommand": "cd ../.. && corepack enable && pnpm install --frozen-lockfile",
+      "buildCommand": "cd ../.. && pnpm --filter @jeevan/web build",
       "bindings": [
         {
           "type": "service",
